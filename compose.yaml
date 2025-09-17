@@ -1,0 +1,28 @@
+﻿services:
+  staff-competencies-backend:
+    image: staff-competencies-backend
+    build:
+      context: .
+      dockerfile: staff-competencies-backend/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=staff-competencies-db;Username=postgres;Password=postgres
+
+  postgres:
+    image: postgres:17
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: staff-competencies-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 3
