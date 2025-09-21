@@ -20,11 +20,8 @@ services.AddOpenApi();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-    app.UseSwaggerUI(options => { options.SwaggerEndpoint("/openapi/v1.json", "test"); });
-}
+app.MapOpenApi();
+app.UseSwaggerUI(options => { options.SwaggerEndpoint("/openapi/v1.json", "test"); });
 
 app.UseHttpsRedirection();
 app.UseErrorHandlingMiddleware();
