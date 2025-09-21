@@ -27,6 +27,9 @@ public class ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandling
                 case NotFoundException:
                     context.Response.StatusCode = StatusCodes.Status404NotFound;
                     break;
+                case BadRequestException:
+                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                    break;
                 default:
                     logger.LogError(ex, "An error occurred: {ErrorMessage}", ex.Message);
                     context.Response.StatusCode = StatusCodes.Status500InternalServerError;

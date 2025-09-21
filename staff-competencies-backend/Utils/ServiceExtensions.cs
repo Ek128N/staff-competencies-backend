@@ -6,16 +6,19 @@ namespace staff_competencies_backend.Utils;
 
 public static class ServiceExtensions
 {
-    public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration config)
+    public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration config,IHostEnvironment env)
     {
         services.AddScoped<IPersonService, PersonService>();
 
-        services.AddDbContext<CompetenciesDbContext>(options =>
+        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+        if (!env.IsEnvironment("Test"))
+        {
+            services.AddDbContext<CompetenciesDbContext>(options =>
             {
                 var connectionString = config.GetConnectionString("DefaultConnection");
                 options.UseNpgsql(connectionString);
-            })
-            .MigrateDatabase();
+            }).MigrateDatabase();
+        }
         return services;
     }
 

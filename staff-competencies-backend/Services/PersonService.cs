@@ -72,6 +72,18 @@ public class PersonService(CompetenciesDbContext context) : IPersonService
 
     private async Task AddSkillsToPerson(Person person,HashSet<SkillDto> skillsDto)
     {
+        var repeatedSkillNames = skillsDto
+            .GroupBy(s => s.Name) // case-insensitive optional
+            .Where(g => g.Count() > 1)
+            .Select(g => g.Key)
+            .ToList();
+
+        if (repeatedSkillNames.Count > 0)
+        {
+            throw new BadRequestException(
+                $"Person can't have duplicate skills: {string.Join(", ", repeatedSkillNames)}");
+        }
+        
         var skillsNames = skillsDto.Select(s => s.Name).ToHashSet();
 
         var existingSkills =
