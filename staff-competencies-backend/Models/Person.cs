@@ -1,4 +1,4 @@
-﻿namespace staff_competencies_backend.Storage.Entities;
+﻿namespace staff_competencies_backend.Models;
 
 public class Person
 {

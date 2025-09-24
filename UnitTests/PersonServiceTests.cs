@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using staff_competencies_backend;
+using staff_competencies_backend.Dtos;
+using staff_competencies_backend.Models;
 using staff_competencies_backend.Services;
 using staff_competencies_backend.Storage;
-using staff_competencies_backend.Storage.Entities;
 using staff_competencies_backend.Utils;
 
 namespace UnitTests;

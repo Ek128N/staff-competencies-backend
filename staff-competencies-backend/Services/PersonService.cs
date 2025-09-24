@@ -1,18 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using staff_competencies_backend.Dtos;
+using staff_competencies_backend.Models;
 using staff_competencies_backend.Storage;
-using staff_competencies_backend.Storage.Entities;
 using staff_competencies_backend.Utils;
 
 namespace staff_competencies_backend.Services;
-
-public interface IPersonService
-{
-    Task<List<PersonResponseDto>> GetPersons();
-    Task<PersonResponseDto?> GetPerson(long id);
-    Task<CreatePersonResponse> CreatePerson(PersonRequestDto person);
-    Task UpdatePerson(long id, PersonRequestDto dto);
-    Task DeletePerson(long id);
-}
 
 public class PersonService(CompetenciesDbContext context) : IPersonService
 {
@@ -49,7 +41,7 @@ public class PersonService(CompetenciesDbContext context) : IPersonService
         context.Persons.Add(person);
         await context.SaveChangesAsync();
 
-        return new CreatePersonResponse(PersonId:person.Id);
+        return new CreatePersonResponse(PersonId: person.Id);
     }
 
     public async Task UpdatePerson(long id, PersonRequestDto dto)
@@ -70,7 +62,7 @@ public class PersonService(CompetenciesDbContext context) : IPersonService
         await context.SaveChangesAsync();
     }
 
-    private async Task AddSkillsToPerson(Person person,HashSet<SkillDto> skillsDto)
+    private async Task AddSkillsToPerson(Person person, HashSet<SkillDto> skillsDto)
     {
         var repeatedSkillNames = skillsDto
             .GroupBy(s => s.Name) // case-insensitive optional
@@ -83,7 +75,7 @@ public class PersonService(CompetenciesDbContext context) : IPersonService
             throw new BadRequestException(
                 $"Person can't have duplicate skills: {string.Join(", ", repeatedSkillNames)}");
         }
-        
+
         var skillsNames = skillsDto.Select(s => s.Name).ToHashSet();
 
         var existingSkills =
@@ -107,7 +99,7 @@ public class PersonService(CompetenciesDbContext context) : IPersonService
             });
         }
     }
-    
+
     public async Task DeletePerson(long id)
     {
         var person = await context.Persons.FirstOrDefaultAsync(p => p.Id == id);

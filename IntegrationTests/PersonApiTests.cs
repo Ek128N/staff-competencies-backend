@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
-using staff_competencies_backend;
+using staff_competencies_backend.Dtos;
 
 namespace IntegrationTests;
 

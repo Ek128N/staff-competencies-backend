@@ -1,4 +1,5 @@
-﻿using staff_competencies_backend.Storage.Entities;
+﻿using staff_competencies_backend.Dtos;
+using staff_competencies_backend.Models;
 
 namespace staff_competencies_backend.Utils;
 
