@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using staff_competencies_backend.Repositories;
 using staff_competencies_backend.Services;
 using staff_competencies_backend.Storage;
 
@@ -6,11 +7,12 @@ namespace staff_competencies_backend.Utils;
 
 public static class ServiceExtensions
 {
-    public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration config,IHostEnvironment env)
+    public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration config,
+        IHostEnvironment env)
     {
         services.AddScoped<IPersonService, PersonService>();
+        services.AddScoped<IRepository, Repository>();
 
-        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
         if (!env.IsEnvironment("Test"))
         {
             services.AddDbContext<CompetenciesDbContext>(options =>
@@ -19,6 +21,7 @@ public static class ServiceExtensions
                 options.UseNpgsql(connectionString);
             }).MigrateDatabase();
         }
+
         return services;
     }
 

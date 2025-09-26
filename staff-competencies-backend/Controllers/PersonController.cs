@@ -15,7 +15,7 @@ public class PersonController(IPersonService personService) : ControllerBase
     }
 
     [HttpGet("{id:long}")]
-    public async Task<PersonResponseDto?> Get(long id)
+    public async Task<PersonResponseDto> Get(long id)
     {
         return await personService.GetPerson(id);
     }

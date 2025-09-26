@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using staff_competencies_backend.Dtos;
 using staff_competencies_backend.Models;
+using staff_competencies_backend.Repositories;
 using staff_competencies_backend.Services;
 using staff_competencies_backend.Storage;
 using staff_competencies_backend.Utils;
@@ -19,7 +20,8 @@ public class PersonServiceTests : IDisposable
             .Options;
 
         _context = new CompetenciesDbContext(options);
-        _personService = new PersonService(_context);
+        var repository = new Repository(_context);
+        _personService = new PersonService(repository);
     }
 
     public void Dispose()
