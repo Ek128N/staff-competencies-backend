@@ -14,7 +14,8 @@ builder.Host.UseSerilog();
 
 var services = builder.Services;
 
-services.AddServices(builder.Configuration, builder.Environment);
+services.AddServices();
+services.AddDatabase(builder.Configuration, builder.Environment);
 services.AddControllers();
 services.AddOpenApi();
 

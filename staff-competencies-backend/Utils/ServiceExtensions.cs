@@ -7,12 +7,15 @@ namespace staff_competencies_backend.Utils;
 
 public static class ServiceExtensions
 {
-    public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration config,
-        IHostEnvironment env)
+    public static IServiceCollection AddServices(this IServiceCollection services )
     {
         services.AddScoped<IPersonService, PersonService>();
         services.AddScoped<IRepository, Repository>();
+        return services;
+    }
 
+    public static IServiceCollection AddDatabase(this IServiceCollection services,IConfiguration config, IHostEnvironment env)
+    {
         if (!env.IsEnvironment("Test"))
         {
             services.AddDbContext<CompetenciesDbContext>(options =>
@@ -21,7 +24,6 @@ public static class ServiceExtensions
                 options.UseNpgsql(connectionString);
             }).MigrateDatabase();
         }
-
         return services;
     }
 
